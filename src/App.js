@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="App">
       <nav>
-        <h1>Termo</h1>
+        <h1>TERMO</h1>
       </nav>
       <AppContext.Provider value={{board, setBoard}}>
         <Board />

@@ -2,10 +2,18 @@ import React, { useContext } from "react";
 import { AppContext } from '../App';
 
 function Letter({ letterPos, attemptValue }) {
-    const { board } = useContext(AppContext);
+    const { board, correctWord, currAttempt } = useContext(AppContext);
     const letter = board[attemptValue][letterPos];
+    
+    const correct = correctWord.toUpperCase()[letterPos] === letter;
+    const almost =
+      !correct && letter !== "" && correctWord.toUpperCase().includes(letter);
+    const letterState =
+      currAttempt.attempt > attemptValue &&
+      (correct ? "correct" : almost ? "almost" : "error");
+      
     return(
-        <div className="letter">{letter}</div>
+        <div className="letter" id={letterState}>{letter}</div>
     )
 }
 

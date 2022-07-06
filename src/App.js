@@ -9,7 +9,8 @@ export const AppContext = createContext();
 function App(keyValue) {
   const [board, setBoard] = useState(boardDefault);
   const [currAttempt, setCurrAttempt] = useState({attempt: 0, letterPos: 0});
-  const [rowdSet, setWordSet] = useState(new Set());
+  const [wordSet, setWordSet] = useState(new Set());
+  const [disabledLetters, setDisabledLetters] = useState([]);
 
   const correctWord = "DIGITE";
 
@@ -37,7 +38,22 @@ function App(keyValue) {
 
   const onEnter = () => {
     if (currAttempt.letterPos !== 6) return;
+
+    let currWord = "";
+    for(let i=0; i<6; i++){
+      currWord += board[currAttempt.attempt][i];
+    }
+    /*if(wordSet.has(currWord.toLowerCase())){
+      setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPos: 0 });
+   } else {
+      alert("Palavra não inclusa");
+    }*/
+    
     setCurrAttempt({attempt: currAttempt.attempt + 1, letterPos: 0});
+
+    if(currWord === correctWord){
+      alert("Fim de jogo!");
+    }
   }
 
   return (
@@ -45,7 +61,7 @@ function App(keyValue) {
       <nav>
         <h1>DIGITE</h1>
       </nav>
-      <AppContext.Provider value={{board, setBoard, currAttempt, setCurrAttempt, onSelectLetter, onDelete, onEnter, correctWord}}>
+      <AppContext.Provider value={{board, setBoard, currAttempt, setCurrAttempt, onSelectLetter, onDelete, onEnter, correctWord, setDisabledLetters, disabledLetters}}>
         <div className='game'>
           <Board />
           <Keyboard />

@@ -1,5 +1,5 @@
-import { useState, createContext } from 'react';
-import { boardDefault } from './Words';
+import { useState, createContext, useEffect } from 'react';
+import { boardDefault, generateWordSet } from './Words';
 import './App.css';
 import Board from './components/Board';
 import Keyboard from './components/Keyboard';
@@ -9,8 +9,15 @@ export const AppContext = createContext();
 function App(keyValue) {
   const [board, setBoard] = useState(boardDefault);
   const [currAttempt, setCurrAttempt] = useState({attempt: 0, letterPos: 0});
-  
+  const [rowdSet, setWordSet] = useState(new Set());
+
   const correctWord = "DIGITE";
+
+  useEffect(() => {
+    generateWordSet().then((words) => {
+      setWordSet(words.wordSet);
+    })
+  }, []);
 
   const onSelectLetter = (keyValue) => {
     if (currAttempt.letterPos > 5) return;
